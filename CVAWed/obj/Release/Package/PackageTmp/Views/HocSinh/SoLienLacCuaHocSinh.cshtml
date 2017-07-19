@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Sổ liên lạc điện tử của học sinh";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div style="margin-left:4%;margin-right:4%;margin-top:2%">
+    @Html.DevExpress().Label(settings =>
+    {
+        settings.Name = "lblTitle";
+        settings.Text = "Trang sổ liên lạc điện tử của học sinh";
+    }).GetHtml()
+@Html.Action("GridSoLienLacDienTu");
+   </div>

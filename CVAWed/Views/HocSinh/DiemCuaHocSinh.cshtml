@@ -1,0 +1,110 @@
+﻿@using CVAWeb.Models.DAL;
+@model List<DSLoaiDiem>
+@{
+    ViewBag.Title = "Điểm của học sinh";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Content/NguoiDungCSS.css" rel="stylesheet" />
+}
+@Html.DevExpress().Splitter(settings =>
+{
+    settings.Name = "Splitter2";
+    settings.Height = System.Web.UI.WebControls.Unit.Percentage(150);
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.AllowResize = true;
+    settings.Orientation = System.Web.UI.WebControls.Orientation.Vertical;
+    settings.Panes.Add(pane =>
+    {
+        pane.Name = "subPane";
+        pane.SetContent(() =>
+        {
+            Html.RenderPartial("_GridViewPartial", Model);
+        });
+    });
+    settings.Panes.Add(pane =>
+    {
+       
+        pane.Name = "subPane2";
+        pane.ScrollBars = ScrollBars.Vertical;
+        pane.ScrollLeft = 20;
+        pane.SetContent(() =>
+        {
+            Html.RenderPartial("XepLoaiPatial");
+        });
+        
+    });
+   
+}).GetHtml()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

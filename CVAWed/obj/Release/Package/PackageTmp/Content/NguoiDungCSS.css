@@ -1,0 +1,195 @@
+﻿.header
+{
+    position:relative;
+    height:140px;
+    background:#e6f2f8;
+}
+.title{
+    height:100px;
+    background:url("../Imager/logo.png") no-repeat;
+    margin-left:25%;
+    width:50%;
+}
+.DockLogin
+{
+  width:250px;
+  height:100px;
+  margin-left:230%;
+  margin-top:130%;
+}
+/*Dang Nhap*/
+  #Khung-Login
+{
+    height:250px;
+    width:520px;
+   margin-left:auto;
+   margin-right:auto;
+    background:#b5e0f1;
+    
+}
+#TieuDe-Login
+{
+    height:30px;
+    width:100%;
+    text-align:center;
+    border-bottom:2px thin;
+    font-family:Arial Meiryo;
+    font-size:20px;
+    font-weight:bold;
+    padding-top:20px;
+}
+#TieuDeAnh-Login
+{
+    float:left;
+    height:170px;
+   margin-top:20px;
+    width:200px;
+   
+}
+#Box-TextBoxDangNhap
+{
+   
+    height:140px;
+    width:290px;
+    margin-top:10px;
+    margin-left:10px;
+    float:left;
+    font-family: Arial Aharoni;
+    margin:7px;
+  
+    padding-top:20px;
+}
+#TieuDe-TextBox
+{
+   height:100px;
+   width:120px;
+   float:left;
+}
+#TieuDe-TextBox-a
+{
+    font-family:Arial Aharoni;
+    font-size:16px;
+    margin-top:10px;
+    margin-bottom:10px;
+    
+}
+#TieuDe-TextBox-a2
+{
+    font-family:Arial Aharoni;
+    font-size:16px;
+    margin-top:15px;
+   
+}
+#TextBox
+{
+    border-radius:4px;
+   height:20px;
+   width:150px;
+   border:1px #8AAFE1 solid;
+   margin-top:10px;
+}
+.box-button
+{
+    height:30px;
+    text-align:center;
+    width:200px;
+   
+    float:right;
+    margin-right:50px;
+}
+#buton-DangNhap
+{
+    border-radius:4px; 
+    width:150px;
+    height:30px;
+    border:1px #8AAFE1 solid;
+}
+#ThongBao
+{
+    color:red;
+    font-size:16px;
+    text-align:center;
+}
+/*Nhap Deim CuaGiao vien*/
+.box-Combobox
+{
+    margin-top:auto;
+    margin-left:auto;
+    width:100%;
+   padding-left:20%;
+   padding-right:20%;
+}
+.gridView-Diem
+{
+    width:100%;
+    height:100%;
+    margin-top:3%;
+    margin-left:6%;
+}
+/*Sổ liên lạc điện tử*/
+.list-Week
+{
+    width:550px;
+    min-height:30px;
+    margin-left:auto;
+    margin-right:auto;
+}
+.box-contraints-Week
+{
+    width:600px;
+    min-height:30px;
+    margin-left:auto;
+    margin-right:auto;
+}
+.box-Content
+{
+    width:80%;
+    margin-left:auto;
+    margin-right:auto;
+    height:70%;
+}
+/*Sửa sổ liên lạc điện tử*/
+.box-Content-EditElectric-Book
+{
+    width:90%;
+    margin-left:5%;
+    margin-right:auto;
+}
+.head-frmCapNhatSoLienLac
+{
+    height:50px;
+    width:90%;
+    background:#9be4eb;
+    z-index:10;
+    margin-left:auto;
+    margin-right:auto;
+}
+.frmSoLienLac-content-information
+{
+        width:25%;
+        padding:10px;
+        padding-top:20px;
+        margin-left:auto;
+        margin-right:auto;
+        
+}
+.button-Update-ElectricBook
+{
+    width:70px;
+    height:30px;
+    border-radius:4px;
+}
+.information-teacher-loguot
+{
+    margin-top:-30px;
+    text-align:right;
+    margin-right:20px;
+}
+/*Sua thong tin*/ 
+.box-content-ThayDoiThongTin
+{
+    height:30%;
+    width:40%;
+    margin-right:auto;
+    margin-left:auto;
+}

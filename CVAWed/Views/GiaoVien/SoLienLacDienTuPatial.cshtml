@@ -1,0 +1,152 @@
+﻿
+
+<div class="box-Content">
+    <div class="box-contraints-Week">
+        
+        @{int MaTuan = ViewBag.MaTuan;}
+        <div class="list-Week">
+            <table>
+                <tr>
+                    <td style="width:20%">
+                        @Html.DevExpress().Label(settings =>
+                        {
+                            settings.Name = "lblListWeek";
+                            settings.Text = "Danh sách tuần:";
+                        }).GetHtml()
+                    </td>
+                    <td>
+                        @Html.DevExpress().ComboBox(
+                            settings =>
+                            {
+                                settings.Name = "comboListWeek";
+                                settings.Width = 180;
+                                settings.SelectedIndex = 0;
+                                settings.Properties.DropDownWidth = 550;
+                                settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                
+                                settings.Properties.CallbackPageSize = 40;
+                                settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                settings.Properties.TextFormatString = "{0}";
+                                
+                                settings.Properties.ValueField = "MaTuan";
+                                
+                                settings.Properties.ValueType = typeof(string);
+                                settings.Properties.Columns.Add("MaTuan", "STT", 50);
+                                settings.Properties.Columns.Add("TenTuan", "Tên tuần", 100);
+                                settings.Properties.Columns.Add("BatDauTuNgay", "Bắt đầu từ ngày", 200);
+                                settings.Properties.Columns.Add("KetThucNgay", "Kết thúc ngày", 200);
+                                settings.Properties.ClientSideEvents.SelectedIndexChanged = "SelectRedirect";
+
+                                if (ViewBag.MaTuan != null)
+                                    settings.SelectedIndex = int.Parse(CVAWeb.Models.BLL.DSTuanBLL.LayTuanGanNhat()) - MaTuan;
+                                else
+                                    settings.SelectedIndex = 0;
+                            }
+                            ).BindList(ViewData["ListTuan"]).GetHtml()
+                    </td>
+                </tr>
+            </table>
+            
+        </div>
+    </div>
+    <div class="content-list-Student">
+        <a class="content-list-Student-a">
+            @Html.DevExpress().Label(settings =>
+        {
+            settings.Name = "lblListStudent";
+            settings.Text = "Danh sách học sinh:";
+        }).GetHtml()
+            
+           
+        </a>
+        @{
+            var grid = Html.DevExpress().GridView(settings =>
+            {
+                settings.Name = "GridView";
+                settings.CallbackRouteValues = new { Controller = "GiaoVien", Action = "GridViewSoLienLacDienCuaHocSinh" };
+                settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+                settings.KeyFieldName = "MaHocSinh";
+                settings.SettingsPager.Visible = true;
+                settings.Caption = "Danh sách học sinh chủ nhiệm";
+                settings.Styles.Header.HorizontalAlign = HorizontalAlign.Center;
+                settings.Styles.Header.Font.Bold = true;
+                settings.Settings.ShowFilterRow = true;
+                settings.Styles.Cell.HorizontalAlign = HorizontalAlign.Center;
+                settings.SettingsBehavior.AllowSelectByRowClick = true;
+                settings.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+                settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+                settings.Settings.VerticalScrollableHeight = 250;
+                
+                settings.Styles.AlternatingRow.Enabled = DefaultBoolean.True;
+                settings.Styles.AlternatingRow.BackColor = System.Drawing.Color.LightGray;
+                settings.Columns.Add(collum =>
+                {
+                    collum.Caption = "";
+                   
+                    collum.SetDataItemTemplateContent(c =>
+                    {
+                        if (CVAWeb.Models.BLL.ElectricBookBLL.chectExitsElectricBook((string)DataBinder.Eval(c.DataItem, "MaHocSinh"), MaTuan))
+                        ViewContext.Writer.Write(
+                            Html.ActionLink("Sửa", "SoLienLacDienCuaHocSinhUpdate", new { MaHocSinh = DataBinder.Eval(c.DataItem, "MaHocSinh"), MaTuan = MaTuan, LaThem=false }) + "&nbsp;" +
+                            Html.ActionLink("Xóa", "ExternalEditFormDelete", new { MaHocSinh = DataBinder.Eval(c.DataItem, "MaHocSinh") },
+                                new { onclick = "return confirm('Bạn có muốn xóa sổ liên lạc điện tử này không?')" })
+                        );
+                        else
+                            ViewContext.Writer.Write(
+                            Html.ActionLink("Thêm", "SoLienLacDienCuaHocSinhAddNew", new { MaHocSinh = DataBinder.Eval(c.DataItem, "MaHocSinh"), MaTuan = MaTuan, LaThem=true }) 
+                           
+                        );
+                            
+                    });
+                    
+                        
+
+                  
+                    collum.Settings.AllowDragDrop = DefaultBoolean.False;
+                    collum.Settings.AllowSort = DefaultBoolean.False;
+                    collum.Width = 70;
+            });
+            
+       
+
+                settings.Columns.Add(column => {
+                    column.Caption = "Mã học sinh";
+                    column.FieldName = "MaHocSinh";
+                    column.Name = "lblMaHocSinh";
+                    column.Width = 100;
+                  
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Họ đệm";
+                    column.FieldName = "HoDem";
+                    column.Name = "lblHoDem";
+                    column.Width = 300;
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Tên";
+                    column.FieldName = "Ten";
+                    column.Name = "lblTenHocSinh";
+                    column.Width = 300;
+                });
+                settings.Columns.Add(collum =>
+                {
+                    collum.Caption = "Ngày sinh";
+                    collum.FieldName = "NgaySinh";
+                    collum.Name = "lblNgaySinh";
+                    collum.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+                    collum.Width = 300;
+                });
+                
+            });
+            if (ViewData["EditError"] != null)
+            {
+                grid.SetEditErrorText((string)ViewData["EditError"]);
+            }
+        }
+        @grid.Bind(Model).GetHtml()
+
+
+    </div>
+</div>

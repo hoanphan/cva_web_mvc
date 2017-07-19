@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<items>
+  <item Text="Trang chủ"  ImageUrl="~/Imager/Home-page.png" NavigateUrl="" />
+  <item Text="Nhập điểm" ImageUrl="~/Imager/Scores.png" NavigateUrl="~/daotao/GiaoVien/NhapDiem"/>
+  <item Text="Thay đổi thông tin" ImageUrl="~/Imager/Setting.png" NavigateUrl="/daotao/Home/SuaThongTin" />
+  <item Text="Trợ giúp" ImageUrl="~/Imager/Help.png" NavigateUrl="#" />
+  <item Text="Thoát" ImageUrl="~/Imager/Exit.png" NavigateUrl="~/daotao/Home/Logoff"/>
+</items>

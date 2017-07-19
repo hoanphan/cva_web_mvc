@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Sổ liên lạc điện tử";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Content/NguoiDungCSS.css" rel="stylesheet" />
+}
+@Html.DevExpress().Splitter(settings =>
+{
+    settings.Name = "Splitter";
+    settings.Height = 500;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.AllowResize = true;
+    settings.Panes.Add(pane =>
+    {
+        pane.ScrollBars = System.Web.UI.WebControls.ScrollBars.Auto;
+        pane.SetContent(() =>
+        {
+            
+           
+            Html.RenderPartial("PatialSuaSoLienLacDienTu");
+        });
+    });
+    
+}).GetHtml()
+
+
+
+
+
+

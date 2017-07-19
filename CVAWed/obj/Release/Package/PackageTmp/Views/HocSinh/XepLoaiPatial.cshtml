@@ -1,0 +1,22 @@
+﻿
+<h4 style="float:left">Tổng kết của kì: @Html.Raw(ViewBag.TenHocKi)</h4>
+<table width="100%" border="1" cellspacing="0">
+    <tr>
+        <td width="30%">Trung bình chung: </td>
+        <td>@Html.Raw(ViewBag.HocLuc)</td>
+    </tr>
+    <tr>
+        <td>Hạnh kiểm  :</td>
+        <td>
+            @Html.Raw(ViewBag.HanhKiem)
+        </td>
+    </tr>
+    @if (ViewBag.DanhHieu != null)
+    {
+        <tr>
+            <td>Dạt danh hiệu  :</td>
+            <td>@Html.Raw(ViewBag.DanhHieu)</td>
+        </tr>
+
+    }
+</table>

@@ -1,0 +1,16 @@
+@using CVAWeb.Controllers;
+    @Html.DevExpress().HtmlEditor(settings =>
+{
+    settings.Name = "HtmlEditor";
+    settings.CallbackRouteValues = new { Controller = "GiaoVien", Action = "HtmlEditorPartial" };
+    settings.Width = 1200;
+    settings.Height = 600;
+    settings.ToolbarMode = HtmlEditorToolbarMode.Ribbon;
+    settings.EnableTheming = false;
+    settings.CssFiles.Add("~/Content/EditorCSS.css");
+    settings.SettingsDialogs.InsertImageDialog.SettingsImageUpload.UploadCallbackRouteValues = new { Controller = "GiaoVien", Action = "HtmlEditorPartialImageUpload" };
+    settings.SettingsDialogs.InsertImageDialog.SettingsImageUpload.UploadFolder = HtmlEditorFeaturesDemosHelper.UploadDirectory;
+    settings.SettingsDialogs.InsertImageDialog.SettingsImageUpload.ValidationSettings.Assign(HtmlEditorFeaturesDemosHelper.ImageUploadValidationSettings);
+
+    HtmlEditorFeaturesDemosHelper.SetHtmlEditorImageSelectorSettings(settings.SettingsDialogs.InsertImageDialog.SettingsImageSelector);
+}).Bind(Model).GetHtml()

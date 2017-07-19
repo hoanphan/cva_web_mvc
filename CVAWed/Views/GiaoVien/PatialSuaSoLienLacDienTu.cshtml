@@ -1,0 +1,89 @@
+﻿
+@using (Html.BeginForm())
+{
+
+
+<div>
+    <div>
+        <div>
+            <div class="head-frmCapNhatSoLienLac">
+                <table style="width: 100%">
+                    <tr>
+                        <td style="width:10%"></td>
+                        <td><h3 style="float:left;">Cập nhật thông tin của tuần</h3></td>
+                        <td style="margin-top:50px;">
+                            <table>
+                                <tr>
+                                    <td style="width:80px;">
+                                        @Html.DevExpress().Button(settings =>
+                                        {
+                                            settings.Name = "btnCapNhat";
+                                            settings.UseSubmitBehavior = true;
+                                            settings.Text = "Cập nhật";
+                                            settings.Styles.Style.CssClass = "boder";
+                                        }).GetHtml()
+                                        @*<input id=" btncapnhat" class="button-Update-ElectricBook" name="btnCapNhat" value="Cập nhật" type="submit" style="float:left" />*@<br />
+                                    </td>
+                                    <td>
+                                        @Html.DevExpress().Button(settings =>
+                                        {
+                                            settings.Name = "btnQuayLai";
+                                            settings.Text = "Quay lại";
+                                            settings.Styles.Style.CssClass = "boder";
+                                            settings.ClientSideEvents.Click = "function (s,e) { window.location.replace('/daotao/GiaoVien/SoLienLacDienTuCuaGV'); }";
+                                        }).GetHtml()
+                                        @*<input id="btnQuayLai" name="btnQuayLai" class="button-Update-ElectricBook" value="Quay lại" type="button" onclick="SelectRedirect()" style="float:left" />*@
+                                    </td>
+                                </tr>
+                            </table>
+
+
+
+                        </td>
+                    </tr>
+                </table>
+
+
+
+            </div>
+            <div class="frmSoLienLac-content-information">
+                <table style="border-bottom: 1px solid #00ffff; border-left: 1px solid #00ffff; border-right: 1px solid #00ffff; border-top: 1px solid #00ffff; ">
+
+                    <tr>
+                        <td>Mã học sinh:</td>
+                        <td style="font-weight:bold">@Html.Raw(ViewBag.MaHocSinh)</td>
+
+                    </tr>
+                    <tr>
+                        <td>Họ tên:</td>
+                        <td style="font-weight:bold">@Html.Raw(ViewBag.HoTen)</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>Tuần thứ:</td>
+                        <td style="font-weight:bold">@Html.Raw(ViewBag.MaTuan) </td>
+
+                    </tr>
+                    <tr>
+                        <td>Bắt đầu từ ngày:</td>
+                        <td style="font-weight:bold">@CVAWeb.Models.BLL.SoLienLacDienTuCuaHocSinh.ChuyenDoiNgayThangNam( ViewBag.NgayBatDau)</td>
+
+                    </tr>
+                    <tr>
+                        <td>Đến ngày :</td>
+                        <td style="font-weight:bold">@CVAWeb.Models.BLL.SoLienLacDienTuCuaHocSinh.ChuyenDoiNgayThangNam(ViewBag.DenNgay)</td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="box-Content-EditElectric-Book">
+
+        @Html.Action("HtmlEditorPartial")
+    </div>
+}
+
+

@@ -1,0 +1,37 @@
+﻿@using CVAWeb.Models.DAL;
+@model List<DSHocSinh>
+@{
+    ViewBag.Title = "Sổ liên lạc điện tử của giáo viên";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Content/NguoiDungCSS.css" rel="stylesheet" />
+}
+ <script>
+    function SelectRedirect(s, e) {
+        var id = comboListWeek.GetValue();
+        window.location = "/daotao/GiaoVien/TuanThayDoi?MaTuan=" + id;
+        comboListWeek.Value = id;
+        GridView.PerformCallback();
+    }
+
+
+</script>
+@Html.DevExpress().Splitter(settings =>
+{
+    settings.Name = "Splitter1";
+    settings.Height = 400;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.AllowResize = true;
+    
+    settings.Panes.Add(pane =>
+    {
+        
+        pane.SetContent(() =>
+        {
+            @Html.RenderPartial("SoLienLacDienTuPatial");
+        });
+    });
+}).GetHtml()
+
+
+
+

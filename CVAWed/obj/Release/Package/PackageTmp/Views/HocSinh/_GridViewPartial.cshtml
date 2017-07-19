@@ -1,0 +1,84 @@
+﻿@using CVAWeb.Models.DAL;
+@model List<DSLoaiDiem>
+@{
+	var grid = Html.DevExpress().GridView(settings => {
+        settings.Name = "GridView";
+        settings.KeyFieldName = "STT";
+        settings.CallbackRouteValues = new { Controller = "HocSinh", Action = "GridViewPartial" };
+        settings.Styles.Header.HorizontalAlign = HorizontalAlign.Center;
+        settings.Styles.Cell.HorizontalAlign = HorizontalAlign.Center;
+	    settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "HocSinh", Action = "GridViewPartialAddNew" };  
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.StylesPager.Pager.CssClass = "DataGrid";     
+		settings.SettingsPager.Visible = true;
+		settings.Settings.ShowGroupPanel = true;
+        settings.SettingsBehavior.AllowClientEventsOnLoad = true;
+        settings.SettingsBehavior.EnableRowHotTrack = true;
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+        settings.Settings.VerticalScrollableHeight =250;
+        settings.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+		settings.SettingsBehavior.AllowSelectByRowClick = true;
+       
+        settings.Columns.Add(colum => {
+            colum.Name = "clTenMonHoc";
+            colum.Caption = "Tên môn học";
+            colum.FieldName = "TenMonHoc";
+            colum.Width = 200;
+          
+        });
+        foreach (DSLoaiDiem ds in Model)
+        {
+            if (ds.SoDiemToiDa > 1)
+            {
+                settings.Columns.AddBand(band =>
+                {
+                    band.Caption = ds.TenLoaiDiem;
+                    band.Name = ds.HienThi;
+                    for (int i = 1; i <= ds.SoDiemToiDa; i++)
+                    {
+                        band.Columns.Add(collum =>
+                        {
+                            collum.Caption = collum.Name = ds.HienThi + i.ToString();
+                            collum.FieldName = ds.MaLoaiDiem + i.ToString();
+                        });
+                    }
+                });
+            }
+            else
+                if (ds.SoDiemToiDa == 1)
+                {
+                    settings.Columns.Add(collum =>
+                    {
+                        collum.Caption = collum.Name = ds.HienThi;
+                        collum.FieldName = ds.MaLoaiDiem + ds.SoDiemToiDa.ToString();
+                    });
+                }
+        }
+        settings.Columns.Add(column =>
+        {
+           
+            column.FieldName = "HocKi";
+            column.Caption = "Học Kỳ";
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            column.GroupIndex = 0;
+            column.SortOrder = DevExpress.Data.ColumnSortOrder.Descending;
+        });
+        settings.HtmlDataCellPrepared = (s, e) =>
+        {
+            double tt;
+            foreach (DSLoaiDiem ds in Model)
+                if (ds.SoDiemToiDa > 1)
+                {
+                    for (int i = 1; i <= ds.SoDiemToiDa;i++ )
+                        if (e.DataColumn.FieldName == ds.MaLoaiDiem + i.ToString())
+                            if (double.TryParse(e.CellValue.ToString(), out tt) == true)
+                            if (e.CellValue.ToString() != "-" && e.CellValue.ToString() != "Đạt" && e.CellValue.ToString() != "Chưa đạt")
+                                if (double.Parse(e.CellValue.ToString()) < 5 && double.TryParse(e.CellValue.ToString(),out tt)==true)
+                            e.Cell.ForeColor = System.Drawing.Color.Red;
+                }
+        };
+          });
+	
+    }
+
+@grid.Bind(ViewData["DuLieu"]).GetHtml()

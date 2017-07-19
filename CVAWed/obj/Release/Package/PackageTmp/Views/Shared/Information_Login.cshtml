@@ -1,0 +1,11 @@
+﻿@if (ViewBag.HoTenGiaoVien !=null)
+{
+    <img src="~/Imager/Use-teacher.png" style="width:30px;height:30px" />
+    <a>Xin chào @Html.Raw(ViewBag.HoTenGiaoVien)</a>
+}
+else
+    if (ViewBag.HoTenHocSinh != null)
+    {
+        <img src="~/Imager/student-icon.png" style="width:30px;height:30px" />
+        <a>Xin chào  @Html.Raw(ViewBag.HoTenHocSinh)</a>
+    }

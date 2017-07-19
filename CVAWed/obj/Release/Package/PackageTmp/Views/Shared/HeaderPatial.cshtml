@@ -1,0 +1,77 @@
+﻿<div>
+    <div class="header">
+        <div class="title">
+
+        </div>
+        @if (ViewBag.HoTenGiaoVien != null || ViewBag.HoTenHocSinh!=null)
+        { 
+                <div class="information-teacher-loguot">
+       
+        @Html.Partial("Information_Login")
+         </div>
+        }
+        <div >
+            @if (ViewBag.SuDungMenu == "")
+            {
+                @Html.DevExpress().Menu(settings =>
+       {
+           settings.Name = "MenuTop";
+           
+           settings.ItemAutoWidth = true;
+           settings.Images.Item.Height = 30;
+           settings.Images.Item.Width = 30;
+           settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+           settings.Styles.Style.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+           settings.Styles.Style.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+       }).BindToXML(HttpContext.Current.Server.MapPath("~/App_Data/XMLDangNhap.xml"), "/items/*").GetHtml()
+            }
+            else
+            {
+                if (ViewBag.SuDungMenu == "1")
+                {
+                    @Html.DevExpress().Menu(settings =>
+            {
+                settings.Name = "MenuTop";
+                settings.ItemAutoWidth = true;
+                settings.Images.Item.Height = 30;
+                settings.Images.Item.Width = 30;
+                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                settings.Styles.Style.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+                settings.Styles.Style.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+            }).BindToXML(HttpContext.Current.Server.MapPath("~/App_Data/MenuXML.xml"), "/items/*").GetHtml()
+                }
+                else 
+                
+                if (ViewBag.SuDungMenu == "3")
+                {
+                    @Html.DevExpress().Menu(settings =>
+            {
+                settings.Name = "MenuTop";
+                settings.ItemAutoWidth = true;
+                settings.Images.Item.Height = 30;
+                settings.Images.Item.Width = 30;
+                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                settings.Styles.Style.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+                settings.Styles.Style.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+            }).BindToXML(HttpContext.Current.Server.MapPath("~/App_Data/MenuCuaGiaVienKhongChuNhiem.xml"), "/items/*").GetHtml()
+                }
+                else
+                {
+                    @Html.DevExpress().Menu(settings =>
+               {
+                   settings.Name = "MenuTop";
+                   settings.ItemAutoWidth = true;
+
+                   settings.Images.Item.Height = 30;
+                   settings.Images.Item.Width = 30;
+                   settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                   settings.Styles.Style.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+                   settings.Styles.Style.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+               }).BindToXML(HttpContext.Current.Server.MapPath("~/App_Data/MenuXML-HocSinh.xml"), "/items/*").GetHtml()
+                }
+            }
+        </div>
+    </div>
+  
+</div>

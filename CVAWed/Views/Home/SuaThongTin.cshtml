@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Sửa thông tin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Content/NguoiDungCSS.css" rel="stylesheet" />
+}
+
+@using (Html.BeginForm())
+{
+    <div class="box-content-ThayDoiThongTin">
+        <table>
+           
+            <tr>
+                <td width="200px">
+                    <a class="label-MatKhau">Mật khẩu cũ: </a>
+                </td>
+                <td>
+                    <input name="txtMatKhau" id="TextBox" type="password" />
+                </td>
+            </tr>
+            <tr>
+                <td class="label-MatKhau">
+                    <a>Mât khẩu mới :</a>
+                </td>
+                <td>
+                    <input name="txtMatKhauMoi" id="TextBox" type="password" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a class="label-MatKhau">Nhập lại mật khẩu mới :</a>
+                </td>
+                <td>
+                    <input name="txtNhapLaiMatKhau" id="TextBox" type="password" />
+                </td>
+            </tr>
+            @if (ViewBag.Kt2 == "2")
+            {
+                <tr>
+                    <td colspan="2" style="text-align:center"><a style="color:#1e9de6">thông tin thay đổi nhập lại chưa đúng</a></td>
+                </tr>
+            }
+            @if (ViewBag.Kt2 == "1")
+            {
+                <tr>
+                    <td colspan="2" style="text-align:center"><a style="color:#ff0000">Sửa thông tin thành công</a></td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2" style="text-align:center"></td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td><input name="btnThayDoi" type="submit" value="Thay đổi" id="buton-DangNhap" /></td>
+            </tr>
+        </table>
+    </div>
+}
+

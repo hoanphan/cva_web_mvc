@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Trang đăng nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Content/NguoiDungCSS.css" rel="stylesheet" />
+}
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-74545203-2', 'auto');
+    ga('send', 'pageview');
+
+</script>
+@using (Html.BeginForm())
+{
+
+    <div id="Khung-Login">
+        <div id="TieuDe-Login">THÔNG TIN ĐĂNG NHẬP</div>
+        <div id="TieuDeAnh-Login">
+            <img src="~/Imager/IconSchool.png" width="200" />
+
+        </div>
+        <div id="Box-TextBoxDangNhap">
+            <div id="TieuDe-TextBox">
+                <div id="TieuDe-TextBox-a">
+                    <a>Tên đăng nhập:</a><br />
+                </div>
+                <div id="TieuDe-TextBox-a2">
+                    <a>Mật khẩu:</a><br />
+                </div>
+            </div>
+
+            @Html.TextBox("txtTaiKhoan", null, htmlAttributes: new { @id = "TextBox", @placeholder = "Nhập tên đăng nhập" })<br />
+
+            @Html.Password("txtMatKhau", null, htmlAttributes: new { @id = "TextBox", @placeholder = "Nhập mật khẩu" })
+
+            <div class="box-button">
+                <input type="submit" id="buton-DangNhap" value="Đăng nhập" name="txtDangNhap" />
+            </div>
+
+        </div>
+
+        @if(ViewBag.KTLogin  == 1)
+        {
+            <a id="ThongBao">Học sinh này chưa đăng kí dịch vụ.</a>
+        }
+        @if (ViewBag.KTLogin == 2)
+        {
+            <br />
+            <a id="ThongBao">Sai thông tin tài khoản.</a>
+        }
+    </div>
+}
+
+

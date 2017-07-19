@@ -1,0 +1,108 @@
+﻿@using CVAWeb.Models.DAL;
+@using CVAWeb.Models.BLL;
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+
+@{bool khoaSo = ViewBag.KhoaSo;}
+@model List<DSLoaiDiem>
+
+    @{
+	var grid = Html.DevExpress().GridView(settings => {
+        settings.Name = "GridViewSoDiem";
+        settings.CallbackRouteValues = new { Controller = "GiaoVien", Action = "GridViewPartial" };
+        settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "GiaoVien", Action = "BatchEditingUpdateModel" };
+		settings.KeyFieldName = "MaHocSinh";
+        settings.SettingsPager.Visible = true;
+        
+        settings.Width = 1200;
+                if(!khoaSo)
+                settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+        
+        settings.Settings.ShowStatusBar = GridViewStatusBarMode.Hidden;
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+        settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+        settings.Styles.Header.HorizontalAlign = HorizontalAlign.Center;
+        settings.Styles.Cell.HorizontalAlign = HorizontalAlign.Center;
+        settings.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+        settings.Settings.VerticalScrollableHeight = 300;
+        settings.Caption = "Bảng điểm của học sinh";
+       
+        settings.Columns.Add(collum => {
+            collum.Name = "clMaHocSinh";
+            collum.FieldName = "MaHocSinh";
+            collum.Caption = "Mã học sinh";
+            collum.Width = 100;
+            collum.EditFormSettings.Visible = DefaultBoolean.False;
+        });
+        settings.Columns.Add(column => {
+            column.FieldName = "TenHocSinh";
+            column.Width = 180;
+            column.Name = "clTenHocSinh";
+            column.Caption = "Tên học sinh";
+            column.EditFormSettings.Visible = DefaultBoolean.False;
+
+        });
+        foreach(DSLoaiDiem listLoaiDiem in Model)
+        {
+            if(listLoaiDiem.SoDiemToiDa>1)
+            {
+                settings.Columns.AddBand(band =>
+                {
+                    band.Name = "bn"+listLoaiDiem.TenLoaiDiem;
+                    band.Caption = listLoaiDiem.TenLoaiDiem;
+                    for(int i=1;i<=listLoaiDiem.SoDiemToiDa;i++)
+                    {
+                        band.Columns.Add(column =>
+                        {
+                            column.Name = column.FieldName = listLoaiDiem.MaLoaiDiem + "_" + i.ToString();
+                            column.Caption = listLoaiDiem.HienThi + i.ToString();
+                            column.Width = 60;
+                           
+                            var textBoxProperties = column.PropertiesEdit as TextBoxProperties;
+                            if(listLoaiDiem.ChoPhepChinhSua==false)
+                            {
+                                column.EditFormSettings.Visible = DefaultBoolean.False;
+                            }
+                            
+                        });
+                    }
+                });
+            }
+            else
+                if(listLoaiDiem.SoDiemToiDa==1)
+                {
+                    settings.Columns.Add(column =>
+                    {
+                        column.Name = column.FieldName = listLoaiDiem.MaLoaiDiem + "_" + (1).ToString();
+                        column.Caption = listLoaiDiem.HienThi;
+                        column.Width = 60;
+                   
+                        var textBoxProperties = column.PropertiesEdit as TextBoxProperties;
+                        if (listLoaiDiem.ChoPhepChinhSua == false)
+                        {
+                            column.EditFormSettings.Visible = DefaultBoolean.False;
+                        }
+                    });
+
+
+                }
+            settings.ClientSideEvents.BatchEditStartEditing = "gridView_BatchEditStartEditing";
+            settings.ClientSideEvents.BatchEditEndEditing = "gridView_BatchEditEndEditing";
+            settings.ClientSideEvents.BatchEditRowValidating = "gridView_BatchEditRowValidating";
+
+
+            settings.CellEditorInitialize = (s, e) =>
+            {
+                ASPxEdit editor = (ASPxEdit)e.Editor;
+                editor.ValidationSettings.Display = Display.None;
+            };
+        }
+			});
+
+    }
+
+
+@grid.Bind(ViewData["dsDiem"]).GetHtml()
+ 

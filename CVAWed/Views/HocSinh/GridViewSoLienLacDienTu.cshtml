@@ -1,0 +1,73 @@
+﻿
+@{var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "GridView";
+        settings.KeyFieldName = "TenTuan";
+        settings.CallbackRouteValues = new { Controller = "HocSinh", Action = "GridSoLienLacDienTu" };
+        settings.Styles.Header.HorizontalAlign = HorizontalAlign.Center;
+        settings.Styles.Cell.HorizontalAlign = HorizontalAlign.Center;
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.Caption = "Sổ liên lạc của hoc sinh";
+        settings.SettingsPager.Visible = true;
+        settings.SettingsBehavior.AllowClientEventsOnLoad = true;
+        settings.SettingsBehavior.EnableRowHotTrack = true;
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+        settings.Settings.VerticalScrollableHeight = 400;
+        settings.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+        settings.SettingsBehavior.AllowFixedGroups = true;
+      
+        settings.Columns.Add(colum =>
+        {
+            colum.Name = "clMaTuan";
+            colum.Caption = "Tuần thứ";
+            colum.FieldName = "TenTuan";
+            colum.GroupIndex = 1;
+            colum.ColumnType = MVCxGridViewColumnType.Default;
+            colum.SortOrder = DevExpress.Data.ColumnSortOrder.Descending;
+            
+        });
+        settings.Columns.Add(collum => {
+            collum.Caption = "Ngày bắt đầu";
+            collum.FieldName = "NgayBatDau";
+            collum.Width = 600;
+        });
+        settings.Columns.Add(collum =>
+        {
+            collum.Caption = "Ngày Kết thúc";
+            collum.FieldName = "NgayKetThuc";
+            collum.Width = 600;
+        });
+        settings.SetDataRowTemplateContent(c =>
+         {
+             ViewContext.Writer.Write(
+                 "<div style=\"padding:5px\">" +
+                     "<table style=\"width:100%\">" +
+                         "<tr>"
+
+             );
+
+             ViewContext.Writer.Write(
+
+                             "<td style=\"width:25%\">     Ngày bắt đầu    </td>" +
+                             "<td style=\"width:25%\">" + DataBinder.Eval(c.DataItem, "NgayBatDau", "{0:d}") + "</td>" +
+                             "<td style=\"width:25%\">Ngày kết thúc</td>" +
+                             "<td style=\"width:25%\">" + DataBinder.Eval(c.DataItem, "NgayKetThuc", "{0:d}") + "</td>" +
+                         "</tr>" +
+                         "<tr>" +
+                             "<td colspan=\"4\" style=\"white-space:normal\">" + DataBinder.Eval(c.DataItem, "NoiDung") + "</td>" +
+                         "</tr>" +
+                     "</table>" +
+                 "</div>"
+             );
+         });
+      
+    });
+}
+
+@grid.Bind(Model).GetHtml()
+
+
+
+
+

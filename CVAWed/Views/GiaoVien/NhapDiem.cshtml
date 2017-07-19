@@ -1,0 +1,247 @@
+﻿@using CVAWed.Models.DAL;
+@using CVAWeb.Models.BLL;
+@{
+    ViewBag.Title = "Nhập điểm của giáo viên";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@functions{
+    System.Collections.IEnumerable GetEditTypes()
+    {
+        return Enum.GetValues(typeof(GridViewBatchEditMode));
+    }
+    System.Collections.IEnumerable GetStartEditActions()
+    {
+        return Enum.GetValues(typeof(GridViewBatchStartEditAction));
+    }
+}
+
+<script language="javascript" type="text/javascript">
+    
+    
+       
+   
+    function cbHocKiChange(s, e) {
+        var maHocKi = cblistHocKi.GetValue();
+        window.location = '/daotao/GiaoVien/HocKi?HocKi=' + maHocKi;
+    }
+
+    function cbKhoiChange(s,e)
+    {        
+        var maKhoi = cblistKhoi.GetValue();
+        window.location = '/daotao/GiaoVien/Khoi?Khoi=' + maKhoi;       
+      
+    }
+    function cbLopChange(s, e) {        
+        var maLop = cblistClass.GetValue();       
+        window.location = '/daotao/GiaoVien/Lop?Lop=' + maLop;        
+
+    }
+    function cbMonChange(s, e) {
+        var gt = cblistSubject.GetValue();
+        window.location = '/daotao/GiaoVien/Mon?Mon=' + gt;
+
+    }
+    function SaveChange(s, e) {
+       
+        GridViewSoDiem.UpdateEdit();
+        
+    };
+   
+
+    function cancelChange(e, s) {
+        GridViewSoDiem.CancelEdit();
+       
+    };
+    function gridView_BatchEditStartEditing(s, e) {
+        var productNameColumn = s.GetColumnByField("MaHocSinh");
+        if (!e.rowValues.hasOwnProperty(productNameColumn.index))
+            return;
+        var cellInfo = e.rowValues[productNameColumn.index];
+        ProductName.SetValue(cellInfo.value);
+        ProductName.SetIsValid(true);
+
+        if (e.focusedColumn === productNameColumn)
+            ProductName.SetFocus();
+    };
+    function gridView_BatchEditEndEditing(s, e) {
+        var productNameColumn = s.GetColumnByField("MaHocSinh");
+        if (!e.rowValues.hasOwnProperty(productNameColumn.index))
+            return;
+
+        $("form").valid();
+        var cellInfo = e.rowValues[productNameColumn.index];
+        cellInfo.value = ProductName.GetValue();
+        cellInfo.text = encodeHtml(ProductName.GetText());
+    };
+    function gridView_BatchEditRowValidating(s, e) {
+        var productNameColumn = s.GetColumnByField("MaHocSinh");
+        var cellValidationInfo = e.validationInfo[productNameColumn.index];
+        if (!cellValidationInfo)
+            return;
+
+        cellValidationInfo.isValid = ProductName.GetIsValid();
+        cellValidationInfo.errorText = ProductName.GetErrorText();
+    };
+
+    var preventEndEditOnLostFocus = false;
+    function ProductName_KeyDown(s, e) {
+        var keyCode = ASPxClientUtils.GetKeyCode(e.htmlEvent);
+        if (keyCode !== ASPx.Key.Tab) return;
+        var moveActionName = e.htmlEvent.shiftKey ? "MoveFocusBackward" : "MoveFocusForward";
+        if (gridView.batchEditApi[moveActionName]()) {
+            ASPxClientUtils.PreventEventAndBubble(e.htmlEvent);
+            preventEndEditOnLostFocus = true;
+        }
+    };
+    function ProductName_LostFocus(s, e) {
+        if (!preventEndEditOnLostFocus)
+            gridView.batchEditApi.EndEdit();
+        preventEndEditOnLostFocus = false;
+    };
+
+    function encodeHtml(text) {
+        if (text === undefined || text === null)
+            return "";
+        var replacements = [
+            [/&amp;/g, '&ampx;'], [/&/g, '&amp;'], [/&quot;/g, '&quotx;'], [/"/g, '&quot;'],
+            [/&lt;/g, '&ltx;'], [/</g, '&lt;'], [/&gt;/g, '&gtx;'], [/>/g, '&gt;']
+        ];
+        for (var i = 0; i < replacements.length; i++) {
+            var repl = replacements[i];
+            text = text.replace(repl[0], repl[1]);
+        }
+        return text;
+    };
+</script>
+
+
+@using(Html.BeginForm())
+{
+   
+            <div class="box-Combobox">
+                <div style="float:left;margin-left:10px">
+                    @Html.DevExpress().Label(settings =>
+                        {
+                            settings.Name = "lblHocKi";
+                            settings.Text = " Danh sách học kì";
+                        }).GetHtml()
+                    @Html.DevExpress().ComboBox(
+                                settings =>
+                                {
+                                    settings.Name = "cblistHocKi";
+                                    settings.Width = 180;
+                                    settings.Properties.CallbackPageSize = 300;
+                                    settings.Properties.TextField = "TenHocKy";
+                                    settings.Properties.ValueField = "MaHocKy";
+                                    if (ViewBag.VTHocKy != null)
+                                    {
+                                        settings.SelectedIndex = ViewBag.VTHocKy;
+                                    }
+                                    else
+                                        settings.SelectedIndex = 0;
+                                    settings.Properties.ClientSideEvents.ValueChanged = "cbHocKiChange";
+                                }
+           ).BindList(ViewData["DsHocKy"]).GetHtml()
+                </div>
+                <div style="float:left ;margin-left:10px">
+                        @Html.DevExpress().Label(settings =>
+                        {
+                            settings.Name = "lblKhoi";
+                            settings.Text = " Danh sách khối";
+                        }).GetHtml()
+                         @Html.DevExpress().ComboBox(
+                                settings =>
+                                {
+                                    settings.Name = "cblistKhoi";
+                                    settings.Width = 180;
+                                    settings.Properties.CallbackPageSize = 300;
+                                    settings.Properties.TextField = "TenKhoi";
+                                    settings.Properties.ValueField = "MaKhoi";
+                                    settings.SelectedIndex = 0;
+                                    if (ViewBag.VTKhoi != null)
+                                    {
+                                        settings.SelectedIndex = ViewBag.VTKhoi;
+                                    }
+                                    settings.Properties.ClientSideEvents.ValueChanged = "cbKhoiChange";
+                                }
+                       ).BindList(ViewData["dsKhoi"]).GetHtml()
+                        </div>
+               
+                <div style="float:left;margin-left:10px;">
+                                 @Html.DevExpress().Label(settings =>
+                                {
+                                    settings.Name = "lbldsLop";
+                                    settings.Text = " Danh sách lớp";
+                                }).GetHtml()
+                              @Html.DevExpress().ComboBox(
+                                settings =>
+                                {
+                                    settings.Name = "cblistClass";
+                                    settings.Width = 180;
+                                    settings.Properties.CallbackPageSize=300;
+                                    settings.Properties.TextField = "TenLop";
+                                    settings.Properties.ValueField = "MaLop";
+                                    if (ViewBag.VTLop != null)
+                                        settings.SelectedIndex = ViewBag.VTLop;
+                                    else
+                                        settings.SelectedIndex = 0;
+                                    settings.Properties.ClientSideEvents.ValueChanged = "cbLopChange";
+                                }
+                                     ).BindList(ViewData["dsLop"]).GetHtml()
+
+                </div>
+                <div style="float:left;margin-left:10px;">
+                    @Html.DevExpress().Label(settings =>
+                    {
+                        settings.Name = "lblMonGiangDay";
+                        settings.Text = " Danh sách môn";
+                    }).GetHtml()
+                    @Html.DevExpress().ComboBox(settings =>
+                        {
+                            settings.Name = "cblistSubject";
+                            settings.Width = 180;
+                          
+                            settings.Properties.CallbackPageSize = 300;
+                            settings.Properties.TextField = "TenMonHoc";
+                            settings.Properties.ValueField = "MaMonHoc";
+                            if (ViewBag.VTMonHoc != null)
+                                settings.SelectedIndex = ViewBag.VTMonHoc;
+                            else
+                            settings.SelectedIndex = 0;
+                            settings.Properties.ClientSideEvents.ValueChanged = "cbMonChange";
+                        }).BindList(ViewData["dsMonHoc"]).GetHtml()
+                </div>
+                
+                @if (ViewBag.KhoaSo==false)
+                { 
+                <div style="float:left;margin-top:10px;margin-left:20px;">
+                    @Html.DevExpress().Button(settings =>
+                        {
+                            settings.Name = "btn_Save";
+                            settings.Text = "Lưu";
+                            settings.Width = 100;
+                            settings.ClientSideEvents.Click = "SaveChange";
+                        }).GetHtml()
+                        @Html.DevExpress().Button(settings =>
+                        {
+                            settings.Name = "btn_Cancel";
+                            settings.Text = "Hủy tác vụ";
+                            settings.Width = 100;
+                            settings.ClientSideEvents.Click = "cancelChange";
+                            
+                        }).GetHtml()
+
+                </div>
+                }
+            </div>
+            <br/>
+            if(ViewBag.Loi!=null)
+            { 
+            <div style="text-align:center;font-size:16px; margin-top:30px; margin-bottom:-15px; color:red">
+                    Không thể lưu vào cơ sở dữ liệu
+            </div>
+            }
+            <div class="gridView-Diem">
+                   @Html.Action("GridViewPartial")
+            </div>
+}
